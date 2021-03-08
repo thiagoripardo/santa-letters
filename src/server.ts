@@ -1,7 +1,7 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import http from 'http';
 import cors from 'cors';
-// import routes from './routes';
+import routesV1 from 'routes/v1/routes';
 
 export default class Server {
   private server: express.Application;
@@ -19,14 +19,17 @@ export default class Server {
   }
 
   private loadRoutes() {
-    // routes.forEach((route: any) => {
-    //   console.log(route);
-    // })
-    this.server.use('/', (req, res, next) => {
-      res.json({
-        message: 'ok',
-      })
-    })
+
+    routesV1.forEach((route: express.Router) => {
+      this.server.use('/api/v1', route);
+    });
+    // this.server.use('/', (request: Request, response: Response) => {
+    //   response.sendStatus(404);
+    // });
+  }
+
+  public getServer() {
+    return this.server;
   }
 
   public start(): http.Server {

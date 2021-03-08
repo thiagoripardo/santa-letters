@@ -1,7 +1,7 @@
 export default {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2020": true
     },
     "extends": [
         "eslint:recommended",
@@ -15,6 +15,7 @@ export default {
         "@typescript-eslint"
     ],
     "rules": {
+        'import/extensions': 'off',
     },
     "settings": {
         "import/resolver": {

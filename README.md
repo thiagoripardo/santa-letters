@@ -1,2 +1,2 @@
-# santa-letters
+# santas-letters
 A CRUD to manage letters to Santa Claus.
