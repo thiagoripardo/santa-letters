@@ -11,12 +11,14 @@ export default class AuthenticationController {
   public registerUser = async (request: Request,
     response: Response): Promise<Response | void> => {
     try {
-      const registerUserResponse = await this.authenticationService
+      const registeredUser = await this.authenticationService
         .signup(request.body);
-      response.json(registerUserResponse);
+      delete registeredUser.password;
+
+      return response.status(201).json(registeredUser);
     } catch (err) {
       console.error(err);
-      response.status(500).json({
+      return response.status(500).json({
         error: String(err),
       });
     }
@@ -25,12 +27,12 @@ export default class AuthenticationController {
   public getUserToken = async (request: Request,
     response: Response): Promise<Response | void> => {
       try {
-        const loginUserResponse = await this.authenticationService
+        const loggedUser = await this.authenticationService
           .login(request.body);
-        response.json(loginUserResponse);
+        return response.json(loggedUser);
       } catch (err) {
         console.error(err);
-        response.status(500).json({
+        return response.status(500).json({
           error: String(err),
         });
       }

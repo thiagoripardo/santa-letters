@@ -12,10 +12,10 @@ export default class LetterController {
     response: Response): Promise<Response | void> => {
     try {
       const createdLetter = await this.letterService.createLetter(request.body);
-      response.json(createdLetter);
+      return response.status(201).json(createdLetter);
     } catch (err) {
       console.error(err);
-      response.status(500).json({
+      return response.status(500).json({
         error: String(err),
       });
     }
@@ -25,10 +25,13 @@ export default class LetterController {
     response: Response): Promise<Response | void> => {
     try {
       const letters = await this.letterService.getLetters();
-      response.json(letters);
+      
+      if (letters.length > 0) return response.json(letters);
+
+      return response.sendStatus(404);
     } catch (err) {
       console.error(err);
-      response.status(500).json({
+      return response.status(500).json({
         error: String(err),
       });
     }
@@ -38,10 +41,13 @@ export default class LetterController {
     response: Response): Promise<Response | void> => {
     try {
       const letter = await this.letterService.getLetterById(request.params.id);
-      response.json(letter);
+
+      if (letter) return response.json(letter);
+
+      return response.sendStatus(404);
     } catch (err) {
       console.error(err);
-      response.status(500).json({
+      return response.status(500).json({
         error: String(err),
       });
     }
@@ -52,10 +58,13 @@ export default class LetterController {
     try {
       const updatedLetter = await this.letterService
         .updateLetterById(request.params.id, request.body);
-      response.json(updatedLetter);
+
+      if (updatedLetter) return response.json(updatedLetter);
+
+      return response.sendStatus(404);
     } catch (err) {
       console.error(err);
-      response.status(500).json({
+      return response.status(500).json({
         error: String(err),
       });
     }
@@ -64,12 +73,12 @@ export default class LetterController {
   public deleteLetterById = async (request: Request,
     response: Response): Promise<Response | void> => {
     try {
-      const deletedLetter = await this.letterService
+      const deletedLetterInfo = await this.letterService
         .deleteLetterById(request.params.id);
-      response.json(deletedLetter);
+      return response.json(deletedLetterInfo);
     } catch (err) {
       console.error(err);
-      response.status(500).json({
+      return response.status(500).json({
         error: String(err),
       });
     }

@@ -13,8 +13,6 @@ export default function mongooseConnetion() {
     useFindAndModify: false,
     user: `${process.env.MONGODB_USER}`,
     pass: `${process.env.MONGODB_PASSWORD}`,
-    dbName: `${process.env.MONGODB_DATABASE_NAME}`,
-    // bufferCommands: false,
-    // bufferMaxEntries: 0,
+    dbName: `${process.env.MONGODB_DATABASE_NAME}`
   }).then((client: Mongoose) => { cachedDb = client; return cachedDb; });
 }

@@ -26,7 +26,6 @@ export default class LetterService {
   }
 
   public async updateLetterById(id: String, letter: ILetter): Promise<any> {
-    this.validate(letter);
     return await this.letterRepository.updateLetterById(id, letter);
   }
 

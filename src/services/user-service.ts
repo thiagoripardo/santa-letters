@@ -22,7 +22,6 @@ export default class UserService {
   }
 
   public async updateUserById(id: string, user: any): Promise<any> {
-    this.validate(user);
     return await this.userRepository.updateUserById(id, user);
   }
 

@@ -5,7 +5,9 @@ const salt: number = 12;
 export interface IUser extends Document {
   username: string;
   password: string;
-  comparePasswords(enteredPassword: string): boolean;
+  comparePasswords(
+    candidatePassword: string,
+  ): boolean;
 }
 
 const UserSchema: Schema<IUser> = new Schema({
@@ -35,7 +37,7 @@ UserSchema.pre('save', function (
 });
 
 UserSchema.methods.comparePasswords = function (
-  enteredPassword: string,
+  enteredPassword: string
 ): boolean {
   return bcrypt.compareSync(enteredPassword, this.password);
 };
