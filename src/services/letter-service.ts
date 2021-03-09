@@ -1,4 +1,4 @@
-import { Letter } from 'models/letter-model';
+import { ILetter } from 'models/letter-model';
 import LetterRepository from 'repositories/letter-repository';
 
 export default class LetterService {
@@ -12,7 +12,7 @@ export default class LetterService {
     return this.letterRepository;
   }
 
-  public async createLetter(letter: Letter): Promise<any> {
+  public async createLetter(letter: ILetter): Promise<any> {
     this.validate(letter);
     return await this.letterRepository.createLetter(letter);
   }
@@ -25,7 +25,7 @@ export default class LetterService {
     return await this.letterRepository.getLetterById(id);
   }
 
-  public async updateLetterById(id: String, letter: Letter): Promise<any> {
+  public async updateLetterById(id: String, letter: ILetter): Promise<any> {
     this.validate(letter);
     return await this.letterRepository.updateLetterById(id, letter);
   }
@@ -34,7 +34,7 @@ export default class LetterService {
     return await this.letterRepository.deleteLetterById(id);
   }
 
-  validate(letter: Letter): void {
+  validate(letter: ILetter): void {
     const {
       body
     } = letter;

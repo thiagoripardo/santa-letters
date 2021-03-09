@@ -1,10 +1,10 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, Application } from 'express';
 import http from 'http';
 import cors from 'cors';
 import routesV1 from 'routes/v1/routes';
 
 export default class Server {
-  private server: express.Application;
+  private server: Application;
 
   constructor() {
     this.server = express();
@@ -18,22 +18,21 @@ export default class Server {
     this.server.use(cors());
   }
 
-  private loadRoutes() {
-
+  private loadRoutes(): void {
     routesV1.forEach((route: express.Router) => {
       this.server.use('/api/v1', route);
     });
-    // this.server.use('/', (request: Request, response: Response) => {
-    //   response.sendStatus(404);
-    // });
+    this.server.use('/', (request: Request, response: Response) => {
+      response.sendStatus(404);
+    });
   }
 
-  public getServer() {
+  public getServer(): express.Application {
     return this.server;
   }
 
   public start(): http.Server {
-    const PORT = process.env.NODE_ENV === 'local' ? 3001 : 3000;
+    const PORT = process.env.PORT ? process.env.PORT : 3000;
     return this.server.listen(PORT, () => {
         console.log(`Server start on port ${PORT}`);
     });

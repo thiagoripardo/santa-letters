@@ -1,4 +1,4 @@
-import { User } from 'models/user-model';
+import { IUser } from 'models/user-model';
 import UserRepository from 'repositories/user-repository';
 
 export default class UserService {
@@ -12,18 +12,31 @@ export default class UserService {
     return this.userRepository;
   }
 
-  validate(user: User): void {
+  public async createUser(user: IUser): Promise<any> {
+    this.validate(user);
+    return await this.userRepository.createUser(user);
+  }
+
+  public async getUserById(id: string): Promise<any> {
+    return await this.userRepository.getUserById(id);
+  }
+
+  public async updateUserById(id: string, user: any): Promise<any> {
+    this.validate(user);
+    return await this.userRepository.updateUserById(id, user);
+  }
+
+  public async deleteUserById(id: string): Promise<any> {
+    return await this.userRepository.deleteUserById(id);
+  }
+
+  validate(user: IUser): void {
     const {
-      email,
-      name,
+      username
     } = user;
 
-    if (!email) {
-      throw new Error('email é um campo obrigatório');
-    }
-
-    if (!name) {
-      throw new Error('name é um campo obrigatório');
+    if (!username) {
+      throw new Error('username é um campo obrigatório');
     }
   }
 }

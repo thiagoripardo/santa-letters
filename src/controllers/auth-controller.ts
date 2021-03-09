@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import AuthenticationService from 'services/authentication-service';
+import AuthenticationService from 'services/auth-service';
 
 export default class AuthenticationController {
   private authenticationService: AuthenticationService;
@@ -24,6 +24,15 @@ export default class AuthenticationController {
 
   public getUserToken = async (request: Request,
     response: Response): Promise<Response | void> => {
-    response.json({ message: 'ok' });
+      try {
+        const loginUserResponse = await this.authenticationService
+          .login(request.body);
+        response.json(loginUserResponse);
+      } catch (err) {
+        console.error(err);
+        response.status(500).json({
+          error: String(err),
+        });
+      }
   }
 }

@@ -1,17 +1,23 @@
-import UserSchema, { User } from 'models/user-model';
+import UserSchema, { IUser } from 'models/user-model';
 
 export default class UserRepository {
   private userSchema = UserSchema;
 
-  public async createUser(user: User): Promise<any> {
+  public async createUser(user: IUser): Promise<IUser | void>  {
     return await this.userSchema.create(user);
   }
 
-  public async findById(id: String): Promise<any> {
-    return await UserSchema.find({}).lean();
+  public async getUserByName(username: string): Promise<IUser | null> {
+    return await UserSchema.findOne({
+      username
+    });
   }
 
-  public async update(payload: any): Promise<any> {
+  public async getUserById(id: string): Promise<any> {
+    return await UserSchema.findById(id).lean();
+  }
+
+  public async updateUserById(id: string, payload: any): Promise<any> {
     return await UserSchema.updateOne({
       '_id': String(payload.id)
     }, {
@@ -19,7 +25,7 @@ export default class UserRepository {
     });
   }
 
-  public async delete(id: String): Promise<any> {
+  public async deleteUserById(id: string): Promise<any> {
     return await UserSchema.deleteOne({
       '_id': id
     });

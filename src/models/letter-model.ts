@@ -1,6 +1,12 @@
-import { model, Schema } from "mongoose";
+import { Document, Schema, Model, model } from "mongoose";
 
-const LetterSchema = new Schema({
+export interface ILetter extends Document {
+  subject: String;
+  body: String;
+  wasRead: Boolean;
+}
+
+const letterSchema = new Schema({
   subject: String,
   body: { 
     type: String, 
@@ -20,9 +26,5 @@ const LetterSchema = new Schema({
 	},
 });
 
-export interface Letter {
-  subject: String;
-  body: String;
-}
-
-export default model('letters', LetterSchema);
+const Letter: Model<ILetter> = model<ILetter>("letters", letterSchema);
+export default Letter;

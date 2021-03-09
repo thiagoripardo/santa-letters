@@ -9,7 +9,15 @@ export default class UserController {
 
   public getUserById = async (request: Request, 
     response: Response): Promise<Response | void> => {
-      response.json({message: 'ok'});
+      try {
+        const letter = await this.userService.getUserById(request.params.id);
+        response.json(letter);
+      } catch (err) {
+        console.error(err);
+        response.status(500).json({
+          error: String(err),
+        });
+      }
   }
 
   public updateUserById = async (request: Request, 
